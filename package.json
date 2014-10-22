@@ -1,0 +1,11 @@
+{
+  "name": "safe-json-stringify",
+  "version": "0.0.0",
+  "description": "Prevent defined property getters from throwing errors",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/*-test.js"
+  },
+  "author": "E-conomic",
+  "license": "MIT"
+}
