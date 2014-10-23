@@ -1,11 +1,22 @@
 {
   "name": "safe-json-stringify",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:e-conomic/safe-json-stringify.git"
+  },
+  "bugs": {
+    "url": "https://github.com/e-conomic/safe-json-stringify/issues"
+  },
+  "homepage": "https://github.com/e-conomic/safe-json-stringify",
   "description": "Prevent defined property getters from throwing errors",
   "main": "index.js",
   "scripts": {
     "test": "node test/*-test.js"
   },
   "author": "E-conomic",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "3.0.1"
+  }
 }

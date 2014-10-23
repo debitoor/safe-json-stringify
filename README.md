@@ -25,7 +25,7 @@ var data = {foo: 'bar'}
 console.log(safeJsonStringify(data));
 ```
 
-That is all.
+An `ensureProperties` function is exposed too, which returns a safe object without the stringify step. Usage: `safeJsonStringify.ensureProperties(data);`.
 
 
 Why?

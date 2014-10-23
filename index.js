@@ -49,3 +49,5 @@ function ensureProperties(obj) {
 module.exports = function(data) {
 	return JSON.stringify(ensureProperties(data));
 }
+
+module.exports.ensureProperties = ensureProperties;
