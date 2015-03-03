@@ -39,7 +39,7 @@ The old, non-standard, and now deprecated `Object.prototype.__defineGetter__()` 
 var obj = {};
 obj.__defineGetter__('foo', function() { return 'bar'; });
 
-JSON.stringify(obj.foo); // {"foo":"bar"}
+JSON.stringify(obj); // {"foo":"bar"}
 ```
 
 This is kinda bad, because we could make that function throw an error.
@@ -49,7 +49,7 @@ This is kinda bad, because we could make that function throw an error.
 var obj = {};
 obj.__defineGetter__('foo', function() { throw new Error('ouch!'); });
 
-JSON.stringify(obj.foo); // error thrown
+JSON.stringify(obj); // error thrown
 ```
 
 This property is created as an enumerable on the object, so the object from the previous example would make any function that iterate choke and throw an error. This is bad because one would never expect a simple property get to throw an error and bring down a system.
@@ -62,11 +62,11 @@ The slightly better `Object.defineProperty()` does the same thing, but has the c
 // Never ever do this in your code. Please.
 var obj = {};
 Object.defineProperty(obj, 'foo', {
-    get: function() { throw new Error('ouch!'); }
+    get: function() { throw new Error('ouch!'); },
 	enumerable: true // enumerable is false by default
 });
 
-JSON.stringify(obj.foo); // error thrown
+JSON.stringify(obj); // error thrown
 ```
 
 So, we can not trust any of them. One could argue that they should never be used, and we can, and should, apply that principle to our own software, but we cannot trust code from third party modules. If data from third party modules are to be stringified by JSON we should take these situations into considerations. This module attempt to do that by spotting defined getters and return "[Throws]" if said getter throws an error.
@@ -77,7 +77,7 @@ var safeJsonStringify = require('safe-json-stringify');
 var obj = {};
 Object.defineProperty(obj, 'foo', {
     get: function() { throw new Error('ouch!'); },
-	enumerable: true // enumerable is false by default
+	enumerable: true
 });
 
 safeJsonStringify(obj); // '{"foo":"[Throws]"}'
