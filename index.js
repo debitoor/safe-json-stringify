@@ -1,10 +1,16 @@
+var hasProp = Object.prototype.hasOwnProperty;
+
+function throwsMessage(err) {
+	return '[Throws: ' + (err ? err.message : '?') + ']';
+}
+
 function safeGetValueFromPropertyOnObject(obj, property) {
-	if (obj.hasOwnProperty(property)) {
+	if (hasProp.call(obj, property)) {
 		try {
 			return obj[property];
 		}
 		catch (err) {
-			return '[Throws]'
+			return throwsMessage(err);
 		}
 	}
 
@@ -12,35 +18,35 @@ function safeGetValueFromPropertyOnObject(obj, property) {
 }
 
 function ensureProperties(obj) {
-	var seen = []; // store references to objects we have seen before
+	var seen = [ ]; // store references to objects we have seen before
 
 	function visit(obj) {
-		if (typeof obj !== 'object') {
+		if (obj === null || typeof obj !== 'object') {
 			return obj;
 		}
 
-		var result = {}; // we do not want to mutate the input object
+		if (seen.indexOf(obj) !== -1) {
+			return '[Circular]';
+		}
+		seen.push(obj);
 
-		Object.keys(obj).forEach(function(prop) {
+		if (typeof obj.toJSON === 'function') {
+			try {
+				return visit(obj.toJSON());
+			} catch(err) {
+				return throwsMessage(err);
+			}
+		}
+
+		if (Array.isArray(obj)) {
+			return obj.map(visit);
+		}
+
+		return Object.keys(obj).reduce(function(result, prop) {
 			// prevent faulty defined getter properties
-			var value = safeGetValueFromPropertyOnObject(obj, prop);
-
-			if (typeof value === 'object') {
-				// prevent circular references
-				if (seen.indexOf(value) === -1) {
-					seen.push(value);
-					result[prop] = visit(value);
-				}
-				else {
-					result[prop] = '[Circular]';
-				}
-			}
-			else {
-				result[prop] = value;
-			}
-		});
-
-		return result;
+			result[prop] = visit(safeGetValueFromPropertyOnObject(obj, prop));
+			return result;
+		}, {});
 	};
 
 	return visit(obj);
