@@ -12,11 +12,11 @@
   "description": "Prevent defined property getters from throwing errors",
   "main": "index.js",
   "scripts": {
-    "test": "node test/*-test.js"
+    "test": "tape test/safe-json-stringify-test.js"
   },
   "author": "E-conomic",
   "license": "MIT",
   "devDependencies": {
-    "tape": "3.0.1"
+    "tape": "3.5.0"
   }
 }
