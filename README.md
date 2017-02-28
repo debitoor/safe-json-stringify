@@ -1,6 +1,6 @@
 # Safe JSON Stringify
 [![Build Status](https://travis-ci.org/debitoor/safe-json-stringify.svg?branch=master)](https://travis-ci.org/debitoor/safe-json-stringify)
-[![NPM Version](https://img.shields.io/npm/v/css-bingo.svg)](https://www.npmjs.com/package/css-bingo)
+[![NPM Version](https://img.shields.io/npm/v/safe-json-stringify.svg)](https://www.npmjs.com/package/safe-json-stringify)
 
 A wrapper for `JSON.stringify` that handles circular references and prevent defined getters from throwing errors.
 
