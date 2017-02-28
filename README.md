@@ -1,11 +1,12 @@
-Safe JSON Stringify
-===================
+# Safe JSON Stringify
+[![Build Status](https://travis-ci.org/debitoor/safe-json-stringify.svg?branch=master)](https://travis-ci.org/debitoor/safe-json-stringify)
+[![NPM Version](https://img.shields.io/npm/v/safe-json-stringify.svg)](https://www.npmjs.com/package/safe-json-stringify)
+
 A wrapper for `JSON.stringify` that handles circular references and prevent defined getters from throwing errors.
 
 Circular references are handled by returning `[Circular]` when a circular reference is spotted.
 
 Defined getters that throws errors are handled by returning `[Throws]`.
-
 
 Usage
 -----
@@ -18,9 +19,8 @@ npm install safe-json-stringify
 And require it into your Node project.
 
 ```js
-var safeJsonStringify = require('safe-json-stringify');
-
-var data = {foo: 'bar'}
+const safeJsonStringify = require('safe-json-stringify');
+const data = {foo: 'bar'}
 
 console.log(safeJsonStringify(data));
 ```
@@ -90,7 +90,7 @@ License
 -------
 The MIT License (MIT)
 
-Copyright (c) 2014 E-conomic
+Copyright (c) 2014-2017 [Debitoor](https://debitoor.com/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -3,20 +3,22 @@
   "version": "1.0.3",
   "repository": {
     "type": "git",
-    "url": "git@github.com:e-conomic/safe-json-stringify.git"
+    "url": "git@github.com:debitoor/safe-json-stringify.git"
   },
   "bugs": {
-    "url": "https://github.com/e-conomic/safe-json-stringify/issues"
+    "url": "https://github.com/debitoor/safe-json-stringify/issues"
   },
-  "homepage": "https://github.com/e-conomic/safe-json-stringify",
+  "homepage": "https://github.com/debitoor/safe-json-stringify",
   "description": "Prevent defined property getters from throwing errors",
   "main": "index.js",
   "scripts": {
+    "postversion": "git push && git push --tags",
+    "preversion": "npm test",
     "test": "tape test/safe-json-stringify-test.js"
   },
-  "author": "E-conomic",
+  "author": "Debitoor",
   "license": "MIT",
   "devDependencies": {
-    "tape": "3.5.0"
+    "tape": "4.6.3"
   }
 }
