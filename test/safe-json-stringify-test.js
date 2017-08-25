@@ -171,3 +171,44 @@ test('enumerable defined getter properties using Object.defineProperty', functio
 		'should return [Throws] when a getter throws an error'
 	);
 });
+
+test('formatting', function(t) {
+	var obj = {a:{b:1, c:[{d: 1}]}}; // some nested object
+	var formatters = [3, "\t", "	"];
+	t.plan(formatters.length)
+	formatters.forEach((formatter) => {
+		t.equal(
+			JSON.stringify(obj, null, formatter),
+			safeJsonStringify(obj, null, formatter),
+			'should apply identical formatting as JSON.stringify itself'
+		);
+		// t.notEqual(
+		// 	safeJsonStringify(obj, null),
+		// 	safeJsonStringify(obj, null, formatter),
+		// 	'should not test trivial identities'
+		// );
+	});
+});
+
+test('replacing', function(t) {
+	var obj = {a:{b:1, c:[{d: 1}]}}; // some nested object
+	var replacers = [
+		["a", "c"],
+		(k, v) => typeof v == 'number' ? "***" : v,
+		() => undefined,
+		[]
+	];
+	t.plan(replacers.length)
+	replacers.forEach((replacer) => {
+		t.equal(
+			JSON.stringify(obj, replacer),
+			safeJsonStringify(obj, replacer),
+			'should use replacer functionality the identical way as JSON.stringify itself'
+		);
+		// t.notEqual(
+		//	 safeJsonStringify(obj, null),
+		//	 safeJsonStringify(obj, replacer),
+		//	 'should not test trivial identities'
+		// );
+	});
+});

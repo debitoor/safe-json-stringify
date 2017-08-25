@@ -25,6 +25,12 @@ const data = {foo: 'bar'}
 console.log(safeJsonStringify(data));
 ```
 
+All the parameters of `JSON.stringify` are accepted, try e.g. the following for a nicely formatted output:
+
+```js
+console.log(safeJsonStringify(data, null, 2));
+```
+
 An `ensureProperties` function is exposed too, which returns a safe object without the stringify step. Usage: `safeJsonStringify.ensureProperties(data);`.
 
 
