@@ -182,11 +182,6 @@ test('formatting', function(t) {
 			safeJsonStringify(obj, null, formatter),
 			'should apply identical formatting as JSON.stringify itself'
 		);
-		// t.notEqual(
-		// 	safeJsonStringify(obj, null),
-		// 	safeJsonStringify(obj, null, formatter),
-		// 	'should not test trivial identities'
-		// );
 	});
 });
 
@@ -205,10 +200,5 @@ test('replacing', function(t) {
 			safeJsonStringify(obj, replacer),
 			'should use replacer functionality the identical way as JSON.stringify itself'
 		);
-		// t.notEqual(
-		//	 safeJsonStringify(obj, null),
-		//	 safeJsonStringify(obj, replacer),
-		//	 'should not test trivial identities'
-		// );
 	});
 });
