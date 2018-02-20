@@ -52,8 +52,8 @@ function ensureProperties(obj) {
 	return visit(obj);
 }
 
-module.exports = function(data) {
-	return JSON.stringify(ensureProperties(data));
+module.exports = function(data, replacer, space) {
+	return JSON.stringify(ensureProperties(data), replacer, space);
 }
 
 module.exports.ensureProperties = ensureProperties;
