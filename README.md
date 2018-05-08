@@ -2,11 +2,11 @@
 [![Build Status](https://travis-ci.org/debitoor/safe-json-stringify.svg?branch=master)](https://travis-ci.org/debitoor/safe-json-stringify)
 [![NPM Version](https://img.shields.io/npm/v/safe-json-stringify.svg)](https://www.npmjs.com/package/safe-json-stringify)
 
-A wrapper for `JSON.stringify` that handles circular references and prevent defined getters from throwing errors.
+A wrapper for `JSON.stringify` that handles circular references and prevents defined getters from throwing errors.
 
 Circular references are handled by returning `[Circular]` when a circular reference is spotted.
 
-Defined getters that throws errors are handled by returning `[Throws]`.
+Defined getters that throw errors are handled by returning `[Throws]`.
 
 Usage
 -----
@@ -36,7 +36,7 @@ An `ensureProperties` function is exposed too, which returns a safe object witho
 
 Why?
 ----
-The `stringify` function on the JavaScript JSON object will take any data and return a string representation of said data. If this data contains an object literal it will attempt to return the values of any enumerable property set on this object. This can be dangerous because JavaScript support a couple of ways to define property getters on objects.
+The `stringify` function on the JavaScript JSON object will take any data and return a string representation of said data. If this data contains an object literal it will attempt to return the values of any enumerable property set on this object. This can be dangerous because JavaScript supports a couple of ways to define property getters on objects.
 
 The old, non-standard, and now deprecated `Object.prototype.__defineGetter__()` will define a named property which value is the return of a given function.
 
@@ -48,7 +48,7 @@ obj.__defineGetter__('foo', function() { return 'bar'; });
 JSON.stringify(obj); // {"foo":"bar"}
 ```
 
-This is kinda bad, because we could make that function throw an error.
+This is kinda bad because we could make that function throw an error.
 
 ```js
 // Never ever do this in your code. Please.
@@ -58,24 +58,24 @@ obj.__defineGetter__('foo', function() { throw new Error('ouch!'); });
 JSON.stringify(obj); // error thrown
 ```
 
-This property is created as an enumerable on the object, so the object from the previous example would make any function that iterate choke and throw an error. This is bad because one would never expect a simple property get to throw an error and bring down a system.
+This property is created as an enumerable on the object, so the object from the previous example would make any function that iterates choke and throw an error. This is bad because one would never expect a simple property get to throw an error and bring down a system.
 
 `JSON.stringify` will blindly trust any object property, and will throw an error if it hits a defined property that throws an error. This could potentially take down your program.
 
-The slightly better `Object.defineProperty()` does the same thing, but has the common courtesy to not define the getter as enumerable--that is pr default. The following example would bring us in the same situation as with `__defineGetter__`.
+The slightly better `Object.defineProperty()` does the same thing, but has the common courtesy to not define the getter as enumerable--that is per default. The following example would bring us in the same situation as with `__defineGetter__`.
 
 ```js
 // Never ever do this in your code. Please.
 var obj = {};
 Object.defineProperty(obj, 'foo', {
     get: function() { throw new Error('ouch!'); },
-	enumerable: true // enumerable is false by default
+        enumerable: true // enumerable is false by default
 });
 
 JSON.stringify(obj); // error thrown
 ```
 
-So, we can not trust any of them. One could argue that they should never be used, and we can, and should, apply that principle to our own software, but we cannot trust code from third party modules. If data from third party modules are to be stringified by JSON we should take these situations into considerations. This module attempt to do that by spotting defined getters and return "[Throws]" if said getter throws an error.
+So, we can not trust any of them. One could argue that they should never be used, and we can, and should, apply that principle to our own software, but we cannot trust code from third-party modules. If data from third-party modules are to be stringified by JSON we should take these situations into considerations. This module attempt to do that by spotting defined getters and return "[Throws]" if said getter throws an error.
 
 ```js
 var safeJsonStringify = require('safe-json-stringify');
@@ -83,13 +83,13 @@ var safeJsonStringify = require('safe-json-stringify');
 var obj = {};
 Object.defineProperty(obj, 'foo', {
     get: function() { throw new Error('ouch!'); },
-	enumerable: true
+        enumerable: true
 });
 
 safeJsonStringify(obj); // '{"foo":"[Throws]"}'
 ```
 
-And it attempt to handle circular references too. It returns "[Circular]" if it spots one.
+And it attempts to handle circular references too. It returns "[Circular]" if it spots one.
 
 
 License
