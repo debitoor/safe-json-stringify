@@ -8,6 +8,14 @@ test('basic stringify', function(t) {
 	t.equal('{"foo":"bar"}', safeJsonStringify({foo: 'bar'}), 'a simple object');
 });
 
+test('object identity', function(t) {
+	t.plan(1);
+
+	var a = { foo: 'bar' };
+	var b = { one: a, two: a };
+	t.equal('{"one":{"foo":"bar"},"two":{"foo":"bar"}}',safeJsonStringify(b),'an object with identical properties');
+});
+
 test('circular references', function(t) {
 	t.plan(2);
 

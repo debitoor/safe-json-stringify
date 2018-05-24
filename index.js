@@ -32,21 +32,27 @@ function ensureProperties(obj) {
 
 		if (typeof obj.toJSON === 'function') {
 			try {
-				return visit(obj.toJSON());
+				var fResult = visit(obj.toJSON());
+				seen.pop();
+				return fResult;
 			} catch(err) {
 				return throwsMessage(err);
 			}
 		}
 
 		if (Array.isArray(obj)) {
-			return obj.map(visit);
+			var aResult = obj.map(visit);
+			seen.pop();
+			return aResult;
 		}
 
-		return Object.keys(obj).reduce(function(result, prop) {
+		var result = Object.keys(obj).reduce(function(result, prop) {
 			// prevent faulty defined getter properties
 			result[prop] = visit(safeGetValueFromPropertyOnObject(obj, prop));
 			return result;
 		}, {});
+		seen.pop();
+		return result;
 	};
 
 	return visit(obj);
