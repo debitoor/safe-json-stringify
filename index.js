@@ -21,6 +21,10 @@ function ensureProperties(obj) {
 	var seen = [ ]; // store references to objects we have seen before
 
 	function visit(obj) {
+		if (typeof obj === 'bigint') {
+			return obj.toString();
+		}
+		
 		if (obj === null || typeof obj !== 'object') {
 			return obj;
 		}
